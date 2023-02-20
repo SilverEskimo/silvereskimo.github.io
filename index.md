@@ -1,62 +1,129 @@
-# Web3 Sandbox Workshop
+---
+layout: default
+---
+
+# ETHDenver - Web Shop Workshop
+
+{: style="text-align: center; font-size:300%"}
+
+## QR to this page
+
+{: style="text-align: center; font-size:200%"}
 
 ![Image.png](https://res.craft.do/user/full/caac9a89-985a-6c2e-405b-af5f5b2a3ca2/doc/A872B62F-7886-41C9-93D9-60B1D87FD656/5345D40E-6659-4008-889C-547D986079EE_2/Yb82NAokQg3WtswZhIpiPvUJEQx2kuTJzgZ8cYpnkRoz/Image.png)
-
+{: style="text-align: center; margin:0"}
 Password: `W3bSh0p`
+{: style="text-align: center"}
 
 ---
 
----
+## Table of Contents
 
-### [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview)
-
-# Sign Up for the Sandbox
-
-[DLG Registration - ETH Denver](https://info.fireblocks.com/ethdenver-sandbox?hs_preview=ZIKteoCh-101565768816)
+1. [Registering to ETHDenver Sandbox](#sign-up-to-sandbox)
+2. [Creating your Fireblocks Environment](#creating-your-fireblocks-environment)
 
 ---
 
-Make sure you have the required prerequisites and tools before you start:
+## Sign up to Sandbox
 
-- A Code Editor such as Visual Studio Code
-- Python 3.8 at least, if you’re using Python.
-- NodeJS if you’re using JavaScript.
+Use the following [link](https://info.fireblocks.com/ethdenver-sandbox?hs_preview=ZIKteoCh-101565768816) to register for ETHDenver developer Sandbox.
 
-# 1 Create Your Account
+See the full [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview) for available functions.
 
-## 1.1 Choose your preferred SDK
+Make sure you have your prefered IDE installed, our recomendation is [PyCharm](https://www.jetbrains.com/pycharm/) for python and [Visual Studio Code](https://code.visualstudio.com/) for JS/TS.
 
-   - [Python](https://github.com/fireblocks/fireblocks-sdk-py)
+For the rest of the workshop, please make sure you have installed (python users also need to install NodeJS):
+
+- [Python](https://www.python.org/downloads/) - Python version >=3.6
+- JS/[TS](https://www.typescriptlang.org/download) - NodeJS version >=12
+
+Once installed, install the following (python users also need to install the JS/TS packages):
+
+- For Python specific users: `fireblocks-sdk`
+- For JS/TS: `fireblocks-sdk`, `@fireblocks/fireblocks-json-rpc`, `@fireblocks/fireblocks-web3-provider`
+
+For your convinience, commands to run:
+
+```shell
+# Python only
+pip3 install fireblocks-sdk
+
+# Python and JS/TS
+npm install @fireblocks/fireblocks-web3-provider
+npm install -g @fireblocks/fireblocks-json-rpc
+
+# JS/TS only
+npm install fireblocks-sdk
+```
+
+asdka
 
 ```python
-from fireblocks_sdk import FireblocksSDK
+def abs():
+  pass
+```
+
+---
+
+## Creating your Fireblocks Environment
+
+### Create Your Account
+
+<br>
+ 
+<div>
+  <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'py')" id="defaultOpen_create_va">Python</button>
+      <button class="tablinks" onclick="openTab(event, 'js')">JS</button>
+  </div>
+
+  <div id="py" class="tabcontent">
+      {% highlight python %}from fireblocks_sdk import FireblocksSDK
 
 api_secret = open('</path/to/fireblocks_secret.key>', 'r').read()
 api_key = '<your-api-key-here>'
 fireblocks = FireblocksSDK(api_secret, api_key)
-# If you are working with a Sandbox environment, add the sandbox URL under api_base_u
-```
+# If you are working with a Sandbox environment, add the sandbox URL under api_base_u{% endhighlight %}
+  </div>
 
-   - [JavaScript](https://github.com/fireblocks/fireblocks-sdk-js)
-
-```javascript
-const fs = require('fs');
+  <div id="js" class="tabcontent">
+        {% highlight javascript %}const fs = require('fs');
 const path = require('path');
 const { FireblocksSDK } = require('fireblocks-sdk');
 
 const apiSecret = fs.readFileSync(path.resolve("</path/to/fireblocks_secret.key>"), "utf8");
 const apiKey = "<your-api-key-here>" 
-const fireblocks = new FireblocksSDK(apiSecret, apiKey);
-```
+const fireblocks = new FireblocksSDK(apiSecret, apiKey);{% endhighlight %}
+  </div>
+
+  <script>
+    function openTab(evt, t_name) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(t_name).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    document.getElementById("defaultOpen_create_va").click();
+  </script>
+</div>
+
 
 ## 1.2 Create your wallet
 
-   - Start by [creating your first vault account](https://developers.fireblocks.com/reference/post_vault-accounts).
-This will create an account that can hold multiple wallets, such as BTC, Ethereum, Polygon, and so many more.
+- Start by [creating your first vault account](https://developers.fireblocks.com/reference/post_vault-accounts).
+  This will create an account that can hold multiple wallets, such as BTC, Ethereum, Polygon, and so many more.
 
 Do note that this endpoint returns an `id`, so make sure to capture it! We will use it in the next step and also later on when we will be dealing with our contract.
-   - Using the `id` from the last step, it is time to [create your wallet](https://developers.fireblocks.com/reference/post_vault-accounts-vaultaccountid-assetid).
-Do note this endpoint also asks for an `assetId` . For our workshop, we will use `"ETH_TEST3"`, which stands for the Goerli network.
+
+- Using the `id` from the last step, it is time to [create your wallet](https://developers.fireblocks.com/reference/post_vault-accounts-vaultaccountid-assetid).
+  Do note this endpoint also asks for an `assetId` . For our workshop, we will use `"ETH_TEST3"`, which stands for the Goerli network.
 
 This endpoint will return an `address`. Save this one as well!
 
@@ -66,11 +133,11 @@ This endpoint will return an `address`. Save this one as well!
 
 ## 2.1 Verify your balance
 
-   - Check your balance using the [balance endpoint](https://developers.fireblocks.com/reference/get_vault-accounts-vaultaccountid-assetid). Use it with the id from the previous step, and the assetId - `"ETH_TEST3"`.
+- Check your balance using the [balance endpoint](https://developers.fireblocks.com/reference/get_vault-accounts-vaultaccountid-assetid). Use it with the id from the previous step, and the assetId - `"ETH_TEST3"`.
 
 ## 2.2 Faucet
 
-   - If your balance hasn’t been updated automatically, reach out to us with your `address` and we will provide some ETH over to your Goerli wallet.
+- If your balance hasn’t been updated automatically, reach out to us with your `address` and we will provide some ETH over to your Goerli wallet.
 
 ---
 
@@ -115,7 +182,7 @@ You should have the following output:
 
 
 👷 Welcome to Hardhat v2.10.1 👷‍
- 
+
 ? What do you want to do? …
 ❯ Create a JavaScript project
   Create a TypeScript project
@@ -172,7 +239,7 @@ module.exports = {
         privateKey: "<private key location>",
         apiKey: "<your api key>",
         vaultAccountIds: "<the id from the account creation",
-      }
+      },
     },
   },
 };
@@ -224,7 +291,7 @@ contract SpaceBunnies is ERC721, ERC721URIStorage, Ownable {
 }
 ```
 
-Assuming you’re in the projects directory, create a new file under the contracts folder, at  `./contracts/spacebunnies.sol` and paste the content into it.
+Assuming you’re in the projects directory, create a new file under the contracts folder, at `./contracts/spacebunnies.sol` and paste the content into it.
 
 Before you continue, make sure you compile it:
 
@@ -288,23 +355,27 @@ Copy the content of the following script, in order to mint your own Space Bunny:
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
-const DatauriParser = require('datauri/parser');
+const DatauriParser = require("datauri/parser");
 const parser = new DatauriParser();
 
 async function main() {
   const spaceBunniesAddress = "<CONTRACT_ADDRESS>";
-  const signer = await hre.ethers.getSigner()
-  const signerAdderss = await signer.getAddress()
-  const spaceBunnies = await hre.ethers.getContractAt("SpaceBunnies", spaceBunniesAddress, signer);
+  const signer = await hre.ethers.getSigner();
+  const signerAdderss = await signer.getAddress();
+  const spaceBunnies = await hre.ethers.getContractAt(
+    "SpaceBunnies",
+    spaceBunniesAddress,
+    signer
+  );
   const tokenData = {
-	"name": "SpaceBunny #1",
-	"image": "<IMAGE_URL>",
-  }
+    name: "SpaceBunny #1",
+    image: "<IMAGE_URL>",
+  };
 
-  const tokenURI = parser.format('.json', JSON.stringify(tokenData)).content
- 
+  const tokenURI = parser.format(".json", JSON.stringify(tokenData)).content;
+
   const tx = await spaceBunnies.safeMint(signerAdderss, tokenURI);
-  await tx.wait()
+  await tx.wait();
 
   console.log("A new Space Bunny NFT has been minted to:", signerAdderss);
   // console.log("tokenURI:", await spaceBunnies.tokenURI(0))
@@ -361,14 +432,14 @@ If you are using the JavaScript SDK, use the following function in your JavaScri
 
 ```javascript
 (async () => {
-    let ownedNfts = await fireblocks.getOwnedNFTs({
-      blockchainDescriptor: "ETH_TEST3",
-      vaultAccountIds: ["<account_id>"]
-    });
-    console.log(ownedNfts);
-})().catch((e)=>{
-    console.error(`Failed: ${e}`);
-})
+  let ownedNfts = await fireblocks.getOwnedNFTs({
+    blockchainDescriptor: "ETH_TEST3",
+    vaultAccountIds: ["<account_id>"],
+  });
+  console.log(ownedNfts);
+})().catch((e) => {
+  console.error(`Failed: ${e}`);
+});
 ```
 
 You can see many of the token traits, such as:
@@ -377,4 +448,3 @@ You can see many of the token traits, such as:
 - `standard`
 - `metadataURI`
 - And much more …
-

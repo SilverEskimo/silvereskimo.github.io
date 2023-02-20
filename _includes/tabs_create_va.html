@@ -1,0 +1,37 @@
+<div class="tab">
+    <button class="tablinks" onclick="openTab(event, 'py')" id="defaultOpen_create_va">Python</button>
+    <button class="tablinks" onclick="openTab(event, 'js')">JS</button>
+</div>
+
+<div id="py" class="tabcontent active">
+    <code>
+      from fireblocks_sdk import FireblocksSDK
+
+      api_secret = open('</path/to/fireblocks_secret.key>', 'r').read()
+      api_key = '<your-api-key-here>'
+      fireblocks = FireblocksSDK(api_secret, api_key)
+      # If you are working with a Sandbox environment, add the sandbox URL under api_base_u
+    </code>
+</div>
+
+<div id="js" class="tabcontent">
+    <h3>Paris</h3>
+    <p>Paris is the capital of France.</p>
+</div>
+
+<script>
+    function openTab(evt, t_name) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(t_name).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    document.getElementById("defaultOpen_create_va").click();
+</script>
