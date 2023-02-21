@@ -8,8 +8,8 @@ layout: default
 ## QR to this page
 {: style="text-align: center; font-size:200%"}
 
-![Image.png](https://res.craft.do/user/full/caac9a89-985a-6c2e-405b-af5f5b2a3ca2/doc/A872B62F-7886-41C9-93D9-60B1D87FD656/5345D40E-6659-4008-889C-547D986079EE_2/Yb82NAokQg3WtswZhIpiPvUJEQx2kuTJzgZ8cYpnkRoz/Image.png)
-{: style="text-align: center; margin:0"}
+![Image.png](assets/img/qr-code.png)
+{: style="margin-left: auto; margin-right: auto; width:50%; height:50%;"}
 Password: `W3bSh0p`
 {: style="text-align: center"}
 
@@ -65,6 +65,7 @@ npm install -g @fireblocks/fireblocks-json-rpc
 
 ### Create your API User
 
+When you register you should get 
 The first operation to do is to create an API user. Generally, to create an API user we would need to create a private public key pair and to upload the public key (CSR format) via the console. 
 In the sandbox, we have provided you with an automated approach to this.
 
@@ -78,9 +79,11 @@ To create your API user perform the following steps:
 7. Click on `Add user & Download Private Key`
 
 Now you will have the private key, which will be used for signing the requests.
-The last part that is required is to get the API Key, from the same view you're currently on, click on the key icon next to the newly created user.
+Now we need to get the API Key, from the same view you're currently on, click on the key icon next to the newly created user.
 
 The API Key wil now be in your clipboard, paste it somewhere for later use.
+
+Lastly, we need to enable One-time address transactions, this is required for contract deployment and interaction. To do this, from your current view (within the settings), go to the `General` tab and scroll to the bottom. You wil see a section titled `One-time Address Transactions`, click `Enable` there.
 
 ### Setup the Fireblocks SDK
 
@@ -164,10 +167,10 @@ After the last command you will see the below output
 888    888                      888 888               888
 888    888                      888 888               888
 8888888888  8888b.  888d888 .d88888 88888b.   8888b.  888888
-888    888     "88b 888P"  d88" 888 888 "88b     "88b 888
+888    888      88b 888P   d88  888 888  88b      88b 888
 888    888 .d888888 888    888  888 888  888 .d888888 888
 888    888 888  888 888    Y88b 888 888  888 888  888 Y88b.
-888    888 "Y888888 888     "Y88888 888  888 "Y888888  "Y888
+888    888  Y888888 888      Y88888 888  888  Y888888   Y888
 
 
 👷 Welcome to Hardhat v2.10.1 👷‍
@@ -219,7 +222,7 @@ module.exports = {
         apiBaseUrl: ApiBaseUrl.Sandbox,
         privateKey: "<private key location>",
         apiKey: "<your api key>",
-        vaultAccountIds: "<the id from the account creation",
+        vaultAccountIds: "<the id from the account creation>",
       },
     },
   },
