@@ -19,9 +19,10 @@ Password: `W3bSh0p`
 
 1. [Registering to ETHDenver Sandbox](#sign-up-to-sandbox)
 2. [Creating your Fireblocks Environment](#creating-your-fireblocks-environment)
-   1. [Setup the Fireblocks SDK](#setup-the-fireblocks-sdk)
-   2. [Creating a vault account](#create-a-vault-account)
-   3. [Creating a wallet](#create-a-wallet)
+   1. [Create an API user](#create-your-api-user)
+   2. [Setup the Fireblocks SDK](#setup-the-fireblocks-sdk)
+   3. [Creating a vault account](#create-a-vault-account)
+   4. [Creating a wallet](#create-a-wallet)
 3. [Fund you wallet](#fund-your-wallet)
    1. [Query your current balance](#verify-your-balance)
    2. [Obtain funds from a faucet](#fund-your-wallet)
@@ -39,89 +40,61 @@ Password: `W3bSh0p`
 
 ## Sign up to Sandbox
 
-Use the following [link](https://info.fireblocks.com/ethdenver-sandbox?hs_preview=ZIKteoCh-101565768816) to register for ETHDenver developer Sandbox.
+Use the following [link](https://info.fireblocks.com/ethdenver-sandbox) to register for ETHDenver developer Sandbox.
+Once you register the system will automatically create an user for you to be able to access the web console and the API.
 
 See the full [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview) for available functions.
 
-Make sure you have your prefered IDE installed, our recomendation is [PyCharm](https://www.jetbrains.com/pycharm/) for python and [Visual Studio Code](https://code.visualstudio.com/) for JS/TS.
+Make sure you have your prefered IDE installed, our recomendation is [Visual Studio Code](https://code.visualstudio.com/) for JS/TS.
 
-For the rest of the workshop, please make sure you have installed (python users also need to install NodeJS):
+For the rest of the workshop, please make sure you have installed [NodeJS version >=12](https://nodejs.org/en/download/)
 
-- [Python](https://www.python.org/downloads/) - Python version >=3.6
-- JS/[TS](https://www.typescriptlang.org/download) - NodeJS version >=12
-
-Once installed, install the following (python users also need to install the JS/TS packages):
-
-- For Python specific users: `fireblocks-sdk`
-- For JS/TS: `fireblocks-sdk`, `@fireblocks/fireblocks-json-rpc`, `@fireblocks/fireblocks-web3-provider`
+Once installed, install the following:
+`fireblocks-sdk`, `@fireblocks/fireblocks-json-rpc`, `@fireblocks/fireblocks-web3-provider`
 
 For your convinience, commands to run:
 
 ```shell
-# Python only
-pip3 install fireblocks-sdk
-
-# Python and JS/TS
-npm install @fireblocks/fireblocks-web3-provider
+npm install @fireblocks/fireblocks-web3-provider fireblocks-sdk
 npm install -g @fireblocks/fireblocks-json-rpc
-
-# JS/TS only
-npm install fireblocks-sdk
 ```
 
 ---
 
 ## Creating your Fireblocks Environment
 
+### Create your API User
+
+The first operation to do is to create an API user. Generally, to create an API user we would need to create a private public key pair and to upload the public key (CSR format) via the console. 
+In the sandbox, we have provided you with an automated approach to this.
+
+To create your API user perform the following steps:
+1. Click the top-right gear icon next to your name
+2. Go to the `Users` tab
+3. On the upper middle right side click on `Add User`
+4. Switch from `Add User` to `API User`
+5. Fill in the name and for the role select `Editor`
+6. Select `Automatic CSR`
+7. Click on `Add user & Download Private Key`
+
+Now you will have the private key, which will be used for signing the requests.
+The last part that is required is to get the API Key, from the same view you're currently on, click on the key icon next to the newly created user.
+
+The API Key wil now be in your clipboard, paste it somewhere for later use.
+
 ### Setup the Fireblocks SDK
 
 Througout the workshop you will need to use the Fireblocks SDK to perform operations (including API calls), the following step shows how to set up the SDK;
 
-<div>
-  <div class="tab">
-      <button class="tablinks-create-va" onclick="openCreateVATab(event, 'py-create-va')" id="defaultOpen_create_va">Python</button>
-      <button class="tablinks-create-va" onclick="openCreateVATab(event, 'js-create-va')">JS</button>
-  </div>
-
-  <div id="py-create-va" class="tabcontent-create-va">
-      {% highlight python %}from fireblocks_sdk import FireblocksSDK
-
-api_secret = open('</path/to/fireblocks_secret.key>', 'r').read()
-api_key = '<your-api-key-here>'
-fireblocks = FireblocksSDK(api_secret, api_key)
-
-# If you are working with a Sandbox environment, add the sandbox URL under api_base_u{% endhighlight %}
-
-  </div>
-
-  <div id="js-create-va" class="tabcontent-create-va">
-        {% highlight javascript %}const fs = require('fs');
+```javascript
+const fs = require('fs');
 const path = require('path');
 const { FireblocksSDK } = require('fireblocks-sdk');
 
 const apiSecret = fs.readFileSync(path.resolve("</path/to/fireblocks_secret.key>"), "utf8");
 const apiKey = "<your-api-key-here>"
-const fireblocks = new FireblocksSDK(apiSecret, apiKey);{% endhighlight %}
-
-  </div>
-
-  <script>
-    function openCreateVATab(evt, t_name) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent-create-va");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks-create-va");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(t_name).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpen_create_va").click();
-  </script>
-</div>
+const fireblocks = new FireblocksSDK(apiSecret, apiKey, "https://sandbox-api.fireblocks.io");
+```
 
 ### Create a vault account
 
@@ -435,19 +408,8 @@ At the end of it you will receive the following message:
 
 Now that we minted the token, we let's query the Fireblocks API to see information about our new NFT.
 The below code uses the SDK we setup earlier ([here](#setup-the-fireblocks-sdk)):
-
-<div>
-<div class="tab">
-      <button class="tablinks-get-nfts" onclick="openGetNFTTab(event, 'py-get-nft')" id="defaultOpen_get_nfts">Python</button>
-      <button class="tablinks-get-nfts" onclick="openGetNFTTab(event, 'js-get-nft')">JS</button>
-  </div>
-
-  <div id="py-get-nft" class="tabcontent-get-nfts">
-      {% highlight python %}print(fireblocks.get_owned_nfts("ETH_TEST3", ["<account_id>"])){% endhighlight %}
-  </div>
-
-  <div id="js-get-nft" class="tabcontent-get-nfts">
-        {% highlight javascript %}(async () => {
+```javascript
+(async () => {
   let ownedNfts = await fireblocks.getOwnedNFTs({
     blockchainDescriptor: "ETH_TEST3",
     vaultAccountIds: ["<account_id>"],
@@ -455,23 +417,5 @@ The below code uses the SDK we setup earlier ([here](#setup-the-fireblocks-sdk))
   console.log(ownedNfts);
 })().catch((e) => {
   console.error(`Failed: ${e}`);
-});{% endhighlight %}
-  </div>
-  <script>
-    function openGetNFTTab(evt, t_name) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent-get-nfts");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks-get-nfts");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(t_name).style.display = "block";
-      evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpen_get_nfts").click();
-  </script>
-</div>
-
+});
+```
