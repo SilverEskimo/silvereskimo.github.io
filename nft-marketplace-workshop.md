@@ -10,8 +10,6 @@ layout: default
 
 ![Image.png](assets/img/qr-code.png)
 {: style="margin-left: auto; margin-right: auto; width:50%; height:50%;"}
-Password: `W3bSh0p`
-{: style="text-align: center"}
 
 ---
 
@@ -65,10 +63,8 @@ npm install -g @fireblocks/fireblocks-json-rpc
 
 ### Create your API User
 
-When you register you should get 
-The first operation to do is to create an API user. Generally, to create an API user we would need to create a private public key pair and to upload the public key (CSR format) via the console. 
-In the sandbox, we have provided you with an automated approach to this.
-
+After registering, you will be brought to the onboarding page, this will show you how to create a new API user.
+In the event that you are not brought to this page, you can follow these steps in order to create a new API user.
 To create your API user perform the following steps:
 1. Click the top-right gear icon next to your name
 2. Go to the `Users` tab
@@ -83,7 +79,7 @@ Now we need to get the API Key, from the same view you're currently on, click on
 
 The API Key wil now be in your clipboard, paste it somewhere for later use.
 
-Lastly, we need to enable One-time address transactions, this is required for contract deployment and interaction. To do this, from your current view (within the settings), go to the `General` tab and scroll to the bottom. You wil see a section titled `One-time Address Transactions`, click `Enable` there.
+In addition to the API user, we need to enable One-time address transactions, this is required for contract deployment and interaction. To do this, from your current view (within the settings), go to the `General` tab and scroll to the bottom. You wil see a section titled `One-time Address Transactions`, click `Enable` there.
 
 ### Setup the Fireblocks SDK
 
