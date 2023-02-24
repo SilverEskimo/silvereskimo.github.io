@@ -7,6 +7,17 @@ layout: default
 
 --- 
 
+## Purpose of this workshop
+In this workshop we will demonstrate the simplicty of deploying an NFT collection using Fireblocks. We will also mint a token form our collection.
+On a high level this is what we'll:
+- Register to a sandbox worksapce
+- Create vault accounts and wallets
+- Prepare the smart contract code
+- Deploy the NFT collecion using Fireblocks Web3Provider and the Fireblocks hardhat plugin
+- Mint a token from the NFT collection using Fireblocks Web3Provider
+ 
+---
+
 ## Sign up to Sandbox
 
 Use the following [link](https://info.fireblocks.com/ethdenver-sandbox) to register for ETHDenver developer Sandbox.
