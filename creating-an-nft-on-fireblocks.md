@@ -2,44 +2,15 @@
 layout: default
 ---
 
-# ETHDenver - Web Shop Workshop
+# ETHDenver<br>NFT Marketplace Workshop
 {: style="text-align: center; font-size:300%"}
 
-## QR to this page
-{: style="text-align: center; font-size:200%"}
-
-![Image.png](assets/img/qr-code.png)
-{: style="margin-left: auto; margin-right: auto; width:50%; height:50%;"}
-
----
-
-## Table of Contents
-
-1. [Registering to ETHDenver Sandbox](#sign-up-to-sandbox)
-2. [Creating your Fireblocks Environment](#creating-your-fireblocks-environment)
-   1. [Create an API user](#create-your-api-user)
-   2. [Setup the Fireblocks SDK](#setup-the-fireblocks-sdk)
-   3. [Creating a vault account](#create-a-vault-account)
-   4. [Creating a wallet](#create-a-wallet)
-3. [Fund you wallet](#fund-your-wallet)
-   1. [Query your current balance](#verify-your-balance)
-   2. [Obtain funds from a faucet](#fund-your-wallet)
-4. [Deploy an NFT Collection](#deploy-an-nft-collection)
-   1. [Install hardhat and create a project](#install-hardhat-and-create-a-project)
-   2. [Install hardhat dependencies](#install-hardhat-dependencies)
-   3. [Adjust hardhat config file](#configure-the-fireblocks-plugin)
-   4. [Deploy the NFT contract](#deploy-your-contract)
-5. [Mint your first token](#mint-your-first-token)
-   1. [Creating the mint script](#mint-script)
-   2. [Minting the token](#minting-your-token)
-   3. [Refreshing NFT data](#getting-the-token-data)
-
----
+--- 
 
 ## Sign up to Sandbox
 
 Use the following [link](https://info.fireblocks.com/ethdenver-sandbox) to register for ETHDenver developer Sandbox.
-Once you register the system will automatically create an user for you to be able to access the web console and the API.
+Once you register the system will automatically create an user for you to be able to access the web console and the API.<br/>For registration you'll need an authenticator app as it will be required as part of the sign-up process.
 
 See the full [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview) for available functions.
 

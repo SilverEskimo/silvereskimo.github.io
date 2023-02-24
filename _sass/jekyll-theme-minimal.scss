@@ -123,9 +123,14 @@ kbd {
 }
 
 header {
-  width:10%;
+  width:15%;
   float:left;
   position:fixed;
+  padding-right: 1%;
+  top: 1em;
+  bottom: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
@@ -190,7 +195,7 @@ strong {
 }
 
 section {
-  width:80%;
+  width:75%;
   float:right;
   padding-bottom:50px;
 }
