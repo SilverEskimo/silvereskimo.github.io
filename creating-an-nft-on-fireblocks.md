@@ -200,7 +200,7 @@ Note; python requires additional steps covered later on.
 
 ### Deploy your Contract
 
-The following Solidity code is our SpaceBunnies collection's code.
+The following Solidity code is our RobotDoomsday collection's code.
 
 ```dart
 // SPDX-License-Identifier: MIT
@@ -211,12 +211,12 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract SpaceBunnies is ERC721, ERC721URIStorage, Ownable {
+contract RobotDoomsday is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("SpaceBunnies", "SPB") {}
+    constructor() ERC721("RobotDoomsday", "RDD") {}
 
     function safeMint(address to, string memory uri) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
@@ -242,7 +242,7 @@ contract SpaceBunnies is ERC721, ERC721URIStorage, Ownable {
 }
 ```
 
-From within the project's directory, create a new file under the contracts folder, at `./contracts/spacebunnies.sol` and paste the content into it.
+From within the project's directory, create a new file under the contracts folder, at `./contracts/robotdoomsday.sol` and paste the content into it.
 
 Before you continue, make sure you compile it:
 
@@ -264,12 +264,12 @@ Copy the following content into the file:
 const hre = require("hardhat");
 
 async function main() {
-  const SpaceBunnies = await hre.ethers.getContractFactory("SpaceBunnies");
-  const spaceBunnies = await SpaceBunnies.deploy();
+  const RobotDoomsday = await hre.ethers.getContractFactory("RobotDoomsday");
+  const robotDoomsday = await RobotDoomsday.deploy();
 
-  await spaceBunnies.deployed();
+  await robotDoomsday.deployed();
 
-  console.log("SpaceBunnies deployed to:", spaceBunnies.address);
+  console.log("RobotDoomsday deployed to:", robotDoomsday.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -287,7 +287,7 @@ npx hardhat run --network goerli scripts/deploy.js
 ```
 
 After finalizing the contract deployment, you should receive a message with the contract address:
-`SpaceBunnies deployed to: <contract_address>`
+`RobotDoomsday deployed to: <contract_address>`
 
 Make sure to record this adderss as it will be used later on.
 You can review the contract under [Etherscan](https://goerli.etherscan.io/).
@@ -314,26 +314,25 @@ const DatauriParser = require("datauri/parser");
 const parser = new DatauriParser();
 
 async function main() {
-  const spaceBunniesAddress = "<CONTRACT_ADDRESS>";
+  const robotDoomsdayAddress = "<CONTRACT_ADDRESS>";
   const signer = await hre.ethers.getSigner();
   const signerAdderss = await signer.getAddress();
-  const spaceBunnies = await hre.ethers.getContractAt(
-    "SpaceBunnies",
-    spaceBunniesAddress,
+  const robotDoomsday = await hre.ethers.getContractAt(
+    "RobotDoomsday",
+    robotDoomsdayAddress,
     signer
   );
   const tokenData = {
-    name: "SpaceBunny #1",
+    name: "Robot Survivor",
     image: "<IMAGE_URL>",
   };
 
   const tokenURI = parser.format(".json", JSON.stringify(tokenData)).content;
 
-  const tx = await spaceBunnies.safeMint(signerAdderss, tokenURI);
+  const tx = await robotDoomsday.safeMint(signerAddress, tokenURI);
   await tx.wait();
 
-  console.log("A new Space Bunny NFT has been minted to:", signerAdderss);
-  // console.log("tokenURI:", await spaceBunnies.tokenURI(0))
+  console.log("A new survivor has been found at:", destAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -345,22 +344,9 @@ main().catch((error) => {
 ```
 
 Save the file as `mint.js`, with the above content.
-Before you finish editing the file, make sure to replace the `spaceBunniesAddress` (line 12) & `IMAGE_URL` (line 18).
+Before you finish editing the file, make sure to replace the `robotDoomsdayAddress` (line 12) & `IMAGE_URL` (line 18).
 The first is the address you recorded when performing the creation of the contract [here](#deploy-your-contract).
-The second can be picked from the pre-prepared list:
-
-| Space Bunny                                                                                                              | Image URL                                                                                                                                                                                                                            |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [\#1](https://serving.photos.photobox.com/86775839cfae69ec4d4530e0bfcfc654521265d2dcc650fc731a815c964fc30b4588a482.jpg)  | [https://serving.photos.photobox.com/86775839cfae69ec4d4530e0bfcfc654521265d2dcc650fc731a815c964fc30b4588a482.jpg](https://serving.photos.photobox.com/86775839cfae69ec4d4530e0bfcfc654521265d2dcc650fc731a815c964fc30b4588a482.jpg) |
-| [\#2](https://serving.photos.photobox.com/77936888183b77d01938b843b9159ac9772a7ef6ea80924be04b648a1f2b80e269ecdc0a.jpg)  | [https://serving.photos.photobox.com/77936888183b77d01938b843b9159ac9772a7ef6ea80924be04b648a1f2b80e269ecdc0a.jpg](https://serving.photos.photobox.com/77936888183b77d01938b843b9159ac9772a7ef6ea80924be04b648a1f2b80e269ecdc0a.jpg) |
-| [\#3](https://serving.photos.photobox.com/90283830396d3b25b03fd0b97d888a91b5915da69ea0324a13f96884870968d011f80677.jpg)  | [https://serving.photos.photobox.com/90283830396d3b25b03fd0b97d888a91b5915da69ea0324a13f96884870968d011f80677.jpg](https://serving.photos.photobox.com/90283830396d3b25b03fd0b97d888a91b5915da69ea0324a13f96884870968d011f80677.jpg) |
-| [\#4](https://serving.photos.photobox.com/56379764a33ad1c911ecc0c2eb82f31f8df7d5b6e1c591dcb903141ef4547ab9e0c1942a.jpg)  | [https://serving.photos.photobox.com/56379764a33ad1c911ecc0c2eb82f31f8df7d5b6e1c591dcb903141ef4547ab9e0c1942a.jpg](https://serving.photos.photobox.com/56379764a33ad1c911ecc0c2eb82f31f8df7d5b6e1c591dcb903141ef4547ab9e0c1942a.jpg) |
-| [\#5](https://serving.photos.photobox.com/647134999c5499624ee9507059d105c54ea4fad372e2615e17c49285894df611ec8f40c2.jpg)  | [https://serving.photos.photobox.com/647134999c5499624ee9507059d105c54ea4fad372e2615e17c49285894df611ec8f40c2.jpg](https://serving.photos.photobox.com/647134999c5499624ee9507059d105c54ea4fad372e2615e17c49285894df611ec8f40c2.jpg) |
-| [\#6](https://serving.photos.photobox.com/960655291873869a46cb811be2e7ce920538dc0c384b58d1e9b0b579f8a91d0d9be0623b.jpg)  | [https://serving.photos.photobox.com/960655291873869a46cb811be2e7ce920538dc0c384b58d1e9b0b579f8a91d0d9be0623b.jpg](https://serving.photos.photobox.com/960655291873869a46cb811be2e7ce920538dc0c384b58d1e9b0b579f8a91d0d9be0623b.jpg) |
-| [\#7](https://serving.photos.photobox.com/353477927fd735a6c9976c53069a9435760e15b3491367a3046d3bf0b3998d5316759459.jpg)  | [https://serving.photos.photobox.com/353477927fd735a6c9976c53069a9435760e15b3491367a3046d3bf0b3998d5316759459.jpg](https://serving.photos.photobox.com/353477927fd735a6c9976c53069a9435760e15b3491367a3046d3bf0b3998d5316759459.jpg) |
-| [\#8](https://serving.photos.photobox.com/0959005049f62889a69e9e5a04e420102670725070ec97afe53b86a5da81170a65a375e6.jpg)  | [https://serving.photos.photobox.com/0959005049f62889a69e9e5a04e420102670725070ec97afe53b86a5da81170a65a375e6.jpg](https://serving.photos.photobox.com/0959005049f62889a69e9e5a04e420102670725070ec97afe53b86a5da81170a65a375e6.jpg) |
-| [\#9](https://serving.photos.photobox.com/3667709080f77f0b9563633fd603b946ace2351a507301729c416f15ebdb8effcff38400.jpg)  | [https://serving.photos.photobox.com/3667709080f77f0b9563633fd603b946ace2351a507301729c416f15ebdb8effcff38400.jpg](https://serving.photos.photobox.com/3667709080f77f0b9563633fd603b946ace2351a507301729c416f15ebdb8effcff38400.jpg) |
-| [\#10](https://serving.photos.photobox.com/24537655cb7ecff4cff23b053227c019b5a5d3690539792a3509113cb476859c8b26bf48.jpg) | [https://serving.photos.photobox.com/24537655cb7ecff4cff23b053227c019b5a5d3690539792a3509113cb476859c8b26bf48.jpg](https://serving.photos.photobox.com/24537655cb7ecff4cff23b053227c019b5a5d3690539792a3509113cb476859c8b26bf48.jpg) |
+The second can be picked from the pre-prepared list [here](./nft-image-table):
 
 ### Minting your Token
 
@@ -372,7 +358,7 @@ npx hardhat run --network goerli scripts/mint.js
 
 Similar to the creation, this might take a bit of time as a transaction needs to be signed and broadcasted.
 At the end of it you will receive the following message:
-`A new Space Bunny NFT has been minted to: <eth_address>`
+`A new survivor has been found at: <eth_address>`
 
 ### Getting the Token Data
 

@@ -390,12 +390,12 @@ This is the updated deploy script:
 const hre = require("hardhat");
 
 async function main() {
-  const SpaceBunnies = await hre.ethers.getContractFactory("RobotDoomsday");
-  const spaceBunnies = await SpaceBunnies.deploy("0xB2b5841DBeF766d4b521221732F9B618fCf34A87");
+  const RobotDoomsday = await hre.ethers.getContractFactory("RobotDoomsday");
+  const robotDoomsday = await RobotDoomsday.deploy("0xB2b5841DBeF766d4b521221732F9B618fCf34A87");
 
-  await spaceBunnies.deployed();
+  await robotDoomsday.deployed();
 
-  console.log("RobotDoomsday deployed to:", spaceBunnies.address);
+  console.log("RobotDoomsday deployed to:", robotDoomsday.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -451,7 +451,7 @@ async function main() {
 
   const tokenURI = parser.format(".json", JSON.stringify(tokenData)).content;
 
-  const tx = await spaceBunnies.safeMint(destAddress, tokenURI);
+  const tx = await robotDoomsday.safeMint(destAddress, tokenURI);
   await tx.wait();
 
   console.log("A new survivor has been found at:", destAddress);
