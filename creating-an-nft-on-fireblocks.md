@@ -46,15 +46,7 @@ npm install -g @fireblocks/fireblocks-json-rpc
 ### Create your API User
 
 After registering, you will be brought to the onboarding page, this will show you how to create a new API user.
-In the event that you are not brought to this page, you can follow these steps in order to create a new API user.
-To create your API user perform the following steps:
-1. Click the top-right gear icon next to your name
-2. Go to the `Users` tab
-3. On the upper middle right side click on `Add User`
-4. Switch from `Add User` to `API User`
-5. Fill in the name and for the role select `Editor`
-6. Select `Automatic CSR`
-7. Click on `Add user & Download Private Key`
+In the event that you are not brought to this page, simply click on the bottom left-hand side tag saying `Developers`
 
 Now you will have the private key, which will be used for signing the requests.
 Now we need to get the API Key, from the same view you're currently on, click on the key icon next to the newly created user.
