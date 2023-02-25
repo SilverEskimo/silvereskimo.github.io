@@ -5,9 +5,9 @@ layout: default
 # ETHDenver<br>Fireblocks Workshop
 {: style="text-align: center; font-size:300%"}
 
-In this workshop we have two activities:
-1. Create a smart contract for an NFT collection and deploy it from our Fireblocks sandbox workspace - [here](./creating-an-nft-on-fireblocks)
-2. Create a smart contract for an NFT collection, air-drop some NFTs into our accounts, and show how easily a gasless transaction can be done - [here](./creating-a-gasless-nft-marketplace)
+In this workshop we have two phases:
+1. [Create a smart contract for an NFT collection and deploy it from our Fireblocks sandbox workspace](./creating-an-nft-on-fireblocks)
+2. [Create a smart contract for an NFT collection, air-drop some NFTs into our accounts, and show how easily a gasless transaction can be done](./creating-a-gasless-nft-marketplace)
 
 ## Prerequisites 
 

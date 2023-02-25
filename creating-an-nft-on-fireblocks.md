@@ -2,12 +2,12 @@
 layout: default
 ---
 
-# ETHDenver<br>NFT Marketplace Workshop
+# ETHDenver<br>NFT Deployment and Minting
 {: style="text-align: center; font-size:300%"}
 
 --- 
 
-## Purpose of this workshop
+## 0. Purpose of this phase of the workshop
 In this workshop we will demonstrate the simplicty of deploying an NFT collection using Fireblocks. We will also mint a token form our collection.
 On a high level this is what we'll:
 - Register to a sandbox worksapce
@@ -18,10 +18,10 @@ On a high level this is what we'll:
  
 ---
 
-## Sign up to Sandbox
+## 1. Sign up to Sandbox
 
-Use the following [link](https://info.fireblocks.com/ethdenver-sandbox) to register for ETHDenver developer Sandbox.
-Once you register the system will automatically create an user for you to be able to access the web console and the API.<br/>For registration you'll need an authenticator app as it will be required as part of the sign-up process.
+Register for [ETHDenver developer Sandbox](https://info.fireblocks.com/ethdenver-sandbox).
+Once you register the system will automatically create an user for you to be able to access the web console and the API.<br/>For registration you'll **need an authenticator app** as it will be required as part of the sign-up process.
 
 See the full [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview) for available functions.
 
@@ -29,35 +29,33 @@ Make sure you have your prefered IDE installed, our recomendation is [Visual Stu
 
 For the rest of the workshop, please make sure you have installed [NodeJS version >=12](https://nodejs.org/en/download/)
 
-Once installed, install the following:
+Please create a folder called `ethdenver` wherever you want on your device, this will be the root folder of the project.
+
+Once done, install the following:
 `fireblocks-sdk`, `@fireblocks/fireblocks-json-rpc`, `@fireblocks/fireblocks-web3-provider`
 
 For your convinience, commands to run:
 
 ```shell
-npm install @fireblocks/fireblocks-web3-provider fireblocks-sdk
-npm install -g @fireblocks/fireblocks-json-rpc
+ethdenver > npm install @fireblocks/fireblocks-web3-provider fireblocks-sdk
+ethdenver > npm install -g @fireblocks/fireblocks-json-rpc
 ```
 
 ---
 
-## Creating your Fireblocks Environment
+## 2. Creating your Fireblocks Environment
 
-### Create your API User
+### 2.1. Create your API User
 
 After registering, you will be brought to the onboarding page, this will show you how to create a new API user.
 In the event that you are not brought to this page, simply click on the bottom left-hand side tag saying `Developers`
 
-Now you will have the private key, which will be used for signing the requests.
-Now we need to get the API Key, from the same view you're currently on, click on the key icon next to the newly created user.
+Once you created the user, download the API private key and save it to the `ethdenver` folder.
+Store the API key from the onboarding page to a file in the `ethdenver` folder.
 
-The API Key wil now be in your clipboard, paste it somewhere for later use.
+### 2.2. Setup the Fireblocks SDK
 
-In addition to the API user, we need to enable One-time address transactions, this is required for contract deployment and interaction. To do this, from your current view (within the settings), go to the `General` tab and scroll to the bottom. You wil see a section titled `One-time Address Transactions`, click `Enable` there.
-
-### Setup the Fireblocks SDK
-
-Througout the workshop you will need to use the Fireblocks SDK to perform operations (including API calls), the following step shows how to set up the SDK;
+Througout the workshop you will need to use the Fireblocks SDK to perform API calls, the following step shows how to set up the SDK; Paste the following code into a new file `workshop.js` under the `ethdenver` directory
 
 ```javascript
 const fs = require('fs');
@@ -69,65 +67,85 @@ const apiKey = "<your-api-key-here>"
 const fireblocks = new FireblocksSDK(apiSecret, apiKey, "https://sandbox-api.fireblocks.io");
 ```
 
-### Create a vault account
+### 2.3. Create a vault account
 
 Within your workspace, you can have containers for your assets, allowing for logical separation between different sets of assets. Such separation can be used for client needs or asset funneling (for example OTC, or incoming crypto from NFT sales).
 
 These containers are called Vault accounts, each workspace can have an unlimited number of such vault accounts, with each vault containing addresses for various assets (i.e. wallets).
 We will now create a vault account via the API to help familiarize ourselves with the API functionality.
 
-To perform this, follow the API reference that can be found [here](https://developers.fireblocks.com/reference/post_vault-accounts).<br>
+To perform this, follow the [API reference](https://developers.fireblocks.com/reference/post_vault-accounts). The vault's name should be `Treasury`.<br>
 **This endpoint returns an `id`, make sure to record it as it will be needed later.**
 
-### Create a wallet
+```javascript
+(async () => {
+    const vaultAccount = await fireblocks.createVaultAccount(`Treasury`);
+    console.log("Vault account id: ", vaultAccount.id);
+})();
+```
+
+### 2.4. Create a wallet
 
 Once you have created your vault account, you can create wallets.
 Wallets are the basic units within a vault account, each wallet represents a single (or several) address on a given blockchain. Wallets can be made for ETH, BTC, etc.
 
-To do this, follow the API reference that can be found [here](https://developers.fireblocks.com/reference/post_vault-accounts-vaultaccountid-assetid).
+To do this, follow the [API reference](https://developers.fireblocks.com/reference/post_vault-accounts-vaultaccountid-assetid).
 The API will require that you provide the vault account `id` which you have recorded in the previous step.
-You will also need to provide an asset Id, in the context of this workshop it will be `ETH_TEST3` which is the Goerli tstnet asset id in fireblocks.
+You will also need to provide an asset Id, in the context of this workshop it will be **`ETH_TEST3`** which is the Goerli testnet asset id in fireblocks.
 
 **This endpoint will return an `address`, make sure to record it as it will be needed later.**
 
+```javascript
+(async () => {
+    const vaultAsset = await fireblocks.createVaultAsset(`ETH_TEST3`);
+    console.log("Vault Goerli ETH Address: ", vaultAsset.addres);
+})();
+```
+
 ---
 
-## Fund Your Wallet
+## 3. Fund Your Wallet
 
-### Verify your balance
+### 3.1. Obtain funds
+
+Please add your ETH_TEST3 deposit address into the following [spreadsheet](https://docs.google.com/spreadsheets/d/17cTFdyct6j_ORci5KKAKZe3AIp1yIZOMHR-mqd38oxw/edit?usp=sharing). Once filled in we will send you some ETH to the wallet to cover transactions.
+
+### 3.2. Verify your balance
 
 Throughout your work with the API you will need to understand the state of various vault accounts in your use.
 This is done by querying the current asset balance, or in other words the balance of a specific asset's wallet.
-To do this, following the relevant API reference, found [here](https://developers.fireblocks.com/reference/get_vault-accounts-vaultaccountid-assetid). This endpoint will require both the `id` and the aforementioned `ETH_TEST3` assetId.
+To do this, following the relevant [API reference](https://developers.fireblocks.com/reference/get_vault-accounts-vaultaccountid-assetid). This endpoint will require both the `id` and the aforementioned `ETH_TEST3` assetId.
 
-### Obtain funds
+```javascript
+(async () => {
+    const vaultAsset = await fireblocks.getVaultAccountAsset(`Treasury`, "ETH_TEST3");
+    console.log(vaultAsset);
+})();
+```
 
-Before we proceed we need to fund our wallet, to do this we will need to get funds from a facuet.
-In case you are unable to, please reach out to us with thee `address` from the previous step.
 
 ---
 
-## Deploy an NFT Collection
+## 4. Deploy an NFT Collection
 
 We will now deploy an NFT collection. Our collection's smart contract code relies on OpenZeppelin standards and the Hardhat tool.
 
 This part will guide you step by step, from configuring the Hardhat application, to the successful deployment.
 
-### Install Hardhat and create a project
+### 4.1. Install Hardhat and create a project
 
-First we will install hardhat; this is a fairly straightforward process.
 The following commands will install hardhat and create a new project;
 
 ```shell
 # Create a new directory for our project
-mkdir web3-workshop
-cd web3-workshop
+ethdenver > mkdir web3-workshop
+ethdenver > cd web3-workshop
 
 # Install hardhat
-npm install --save-dev hardhat
+web3-workshop > npm install --save-dev hardhat
 
 # Run hardhat
-npx hardhat
+web3-workshop > npx hardhat
 ```
 
 After the last command you will see the below output
@@ -155,25 +173,25 @@ Make sure your choose `Create a JavaScript project`.
 Now delete the default solidity file that comes within the project. Assuming you are in the directory:
 
 ```shell
-rm -f ./contracts/Lock.sol
+web3-workshop > rm -f ./contracts/Lock.sol
 ```
 
-### Install Hardhat Dependencies
+### 4.2. Install Hardhat Dependencies
 
 We will install both of the required dependencies in order to compile our contract and deploy it through Fireblocks.
 
 ```shell
 # OpenZepplin contracts
-npm install @openzeppelin/contracts
+web3-workshop > npm install @openzeppelin/contracts
 
 # Hardhat Fireblocks plugin
-npm install @fireblocks/hardhat-fireblocks
+web3-workshop > npm install @fireblocks/hardhat-fireblocks
 
 # Data URI will be used in our minting script.
-npm install datauri
+web3-workshop > npm install datauri
 ```
 
-### Configure the Fireblocks Plugin
+### 4.3. Configure the Fireblocks Plugin
 
 The last thing we need to do now is to adjust the hardhat configuration file. The following is the prepared hardhat configuration file:
 
@@ -199,9 +217,7 @@ module.exports = {
 };
 ```
 
-Note; python requires additional steps covered later on.
-
-### Deploy your Contract
+### 4.4. Deploy your Contract
 
 The following Solidity code is our RobotDoomsday collection's code.
 
@@ -245,15 +261,15 @@ contract RobotDoomsday is ERC721, ERC721URIStorage, Ownable {
 }
 ```
 
-From within the project's directory, create a new file under the contracts folder, at `./contracts/robotdoomsday.sol` and paste the content into it.
+From the `web3-workshop` directory, create a new file under the contracts folder, at `ethdenver/web3-workshop/contracts` named `robotdoomsday.sol` and paste the content into it.
 
-Before you continue, make sure you compile it:
+Before you continue, make sure you can compile it:
 
 ```shell
-npx hardhat compile
+web3-workshop > npx hardhat compile
 ```
 
-Next, we will edit the `deploy.js` script under the `./scripts` folder.
+Next, we will edit the `deploy.js` script under the `ethdenver/web3-workshop/scripts` folder.
 This file will act as our deployment script and will actually perform the deployment onto the Ethereum blockchain on the Goerli network.
 Copy the following content into the file:
 
@@ -286,7 +302,7 @@ main().catch((error) => {
 Now, just execute the deployment through hardhat, this process will require signatures of transactions by you, thus will require some time until it is done.
 
 ```shell
-npx hardhat run --network goerli scripts/deploy.js
+web3-workshop > npx hardhat run --network goerli scripts/deploy.js
 ```
 
 After finalizing the contract deployment, you should receive a message with the contract address:
@@ -297,13 +313,13 @@ You can review the contract under [Etherscan](https://goerli.etherscan.io/).
 
 ---
 
-## Mint your First Token
+## 5. Mint your First Token
 
-### Mint Script
+### 5.1. Mint Script
 
 Once our contract is out in the "wild", we can perform a mint of our token.
 To do this, we will make use of hardhat once more - since it is already configured to work with the Fireblocks plugin.
-Copy the content of the following script into a new file under `./scripts` folder in order to mint your own Space Bunny:
+Copy the content of the following script into a new file - under `ethdenver/web3-workshop/scripts` folder - called `mint.js` in order to mint your own RobotDoomsday survivor:
 
 ```javascript
 // We require the Hardhat Runtime Environment explicitly here. This is optional
@@ -319,7 +335,7 @@ const parser = new DatauriParser();
 async function main() {
   const robotDoomsdayAddress = "<CONTRACT_ADDRESS>";
   const signer = await hre.ethers.getSigner();
-  const signerAdderss = await signer.getAddress();
+  const signerAddress = await signer.getAddress();
   const robotDoomsday = await hre.ethers.getContractAt(
     "RobotDoomsday",
     robotDoomsdayAddress,
@@ -335,7 +351,7 @@ async function main() {
   const tx = await robotDoomsday.safeMint(signerAddress, tokenURI);
   await tx.wait();
 
-  console.log("A new survivor has been found at:", destAddress);
+  console.log("A new survivor has been found at:", signerAddress);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
@@ -346,24 +362,24 @@ main().catch((error) => {
 });
 ```
 
-Save the file as `mint.js`, with the above content.
-Before you finish editing the file, make sure to replace the `robotDoomsdayAddress` (line 12) & `IMAGE_URL` (line 18).
-The first is the address you recorded when performing the creation of the contract [here](#deploy-your-contract).
-The second can be picked from the pre-prepared list [here](./nft-image-table):
+Before you finish editing the file, make sure to replace the `robotDoomsdayAddress` (line 12) & `IMAGE_URL` (line 22).
+The first variable is the address you recorded when performing the creation of the contract [here](#deploy-your-contract).
+The second variable can be picked from the [pre-prepared list](./nft-image-table){: target="_blank"}:
 
-### Minting your Token
 
-Now that we finished the script, minting is a very simple operation, all that we need to do is to run the following command from the project's directory:
+### 5.2. Minting your Token
+
+Now that we finished the script, minting is a very simple operation, all that we need to do is to run the following command from the `ethdenver/web3-workshop` directory:
 
 ```shell
-npx hardhat run --network goerli scripts/mint.js
+web3-workshop > npx hardhat run --network goerli scripts/mint.js
 ```
 
 Similar to the creation, this might take a bit of time as a transaction needs to be signed and broadcasted.
 At the end of it you will receive the following message:
 `A new survivor has been found at: <eth_address>`
 
-### Getting the Token Data
+### 5.3. Getting the Token Data
 
 Now that we minted the token, we let's query the Fireblocks API to see information about our new NFT.
 The below code uses the SDK we setup earlier ([here](#setup-the-fireblocks-sdk)):
