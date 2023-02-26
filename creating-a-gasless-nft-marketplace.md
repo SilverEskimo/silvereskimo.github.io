@@ -29,7 +29,7 @@ We will build new parts to our infrastructure with our next steps being:
 
 ### 1.1. Expanding our workspace
 
-Lets expand the workspace, revisit the previous work done when we [created our Fireblocks workspace](./creating-an-nft-on-fireblocks#creating-your-fireblocks-environment){: target="_blank"}. Create several vaults, as many as you'd like. These vaults will act as holders of some tokens from our NFT collection. 
+Lets expand the workspace, revisit the previous work done when we [created our Fireblocks workspace](./creating-an-nft-on-fireblocks#creating-your-fireblocks-environment){: target="_blank"}. Create several vaults, as many as you'd like. These vaults will act as holders of some tokens from our NFT collection.
 
 You can use the following code under `ethdenver/workshop.js`:
 ```javascript
@@ -288,7 +288,7 @@ contract Initializable {
   </script>
 </div>
 
-The contract content of each file can be copied and saved under `./contracts/` and the relevant name in the tab.
+The contract content of each file can be copied and saved under `ethdenver/web3-workshop/contracts/` and the relevant name in the tab.
 
 We will briefly explain the purpose of each file:
 1. `Initializable.sol` - simply indicates when something that has the `initalizable` modifier, has already been initalized
@@ -296,7 +296,7 @@ We will briefly explain the purpose of each file:
 3. `NativeMetaTransaction.sol` - Provide support for Meta Transactions by exposing the `executeMetaTransaction` function and handling both exectuion and verification of such a transaction.
 
 
-Finally, we can now create our NFT collection that will support meta transactions, edit the file `ethdenver/web3-workshop/scripts/mint.js` as follows:
+Finally, we can now create our NFT collection that will support meta transactions, edit the file `ethdenver/web3-workshop/contracts/robotdoomsday.sol` as follows:
 ```dart
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
@@ -504,16 +504,9 @@ First we need to add a dependency:
 ethdenver > npm install ethers@5.6.9
 ```
 
-Now we will setup our provider, within a new file we will create the provider:
+Now we will setup our provider, within the file `ethdenver/workshop.js` we will create the provider, simply copy and paste this into the file (do not remove the previous requires, but remove other executed function if any)
 ```javascript
-const fs = require('fs');
-const path = require('path');
 const { FireblocksWeb3Provider, ApiBaseUrl } = require('@fireblocks/fireblocks-web3-provider');
-//...
-const apiSecret = fs.readFileSync(path.resolve("<path-to-fireblocks_secret.key>"), "utf8");
-const apiKey = "<api-key>"
-
-//...
 const fbksProvider = new FireblocksWeb3Provider({
     apiKey,
     apiBaseUrl: ApiBaseUrl.Sandbox,
@@ -572,7 +565,7 @@ const { ethers } = require("ethers");
 const provider = new ethers.providers.Web3Provider(fbksProvider);
 const signer = provider.getSigner('<NFT-OWNER-ADDRESS>')
 
-const robotDoomsdayContract = new ethers.Contract("<NFT-CONTRACT-ADDRESS", abi, signer)
+const robotDoomsdayContract = new ethers.Contract("<NFT-CONTRACT-ADDRESS>", abi, signer)
 const res = await robotDoomsdayContract.safeTransferFrom("<NFT-OWNER-ADDRESS>", "<NEW-NFT-OWNER-ADDRESS>", TOKEN-ID);
 console.log(await res.wait())
 ```

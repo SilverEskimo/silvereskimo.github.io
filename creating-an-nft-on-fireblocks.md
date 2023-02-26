@@ -97,10 +97,12 @@ You will also need to provide an asset Id, in the context of this workshop it wi
 
 ```javascript
 (async () => {
-    const vaultAsset = await fireblocks.createVaultAsset(`ETH_TEST3`);
-    console.log("Vault Goerli ETH Address: ", vaultAsset.addres);
+  const vaultAsset = await fireblocks.createVaultAsset("<VAULT-ACCOUNT-ID>", "ETH_TEST3");
+  console.log("Vault Goerli ETH Address: ", vaultAsset.addres);
 })();
 ```
+
+Change `<VAULT-ACCOUNT-ID>` to vault account id for the account that you created.
 
 ---
 
@@ -118,11 +120,12 @@ To do this, following the relevant [API reference](https://developers.fireblocks
 
 ```javascript
 (async () => {
-    const vaultAsset = await fireblocks.getVaultAccountAsset(`Treasury`, "ETH_TEST3");
+    const vaultAsset = await fireblocks.getVaultAccountAsset("<VAULT-ACCOUNT-ID>", "ETH_TEST3");
     console.log(vaultAsset);
 })();
 ```
 
+Change `<VAULT-ACCOUNT-ID>` to vault account id for the account that you created.
 
 ---
 
@@ -364,7 +367,7 @@ main().catch((error) => {
 
 Before you finish editing the file, make sure to replace the `robotDoomsdayAddress` (line 12) & `IMAGE_URL` (line 22).
 The first variable is the address you recorded when performing the creation of the contract [here](#deploy-your-contract).
-The second variable can be picked from the [pre-prepared list](./nft-image-table){: target="_blank"}:
+The second variable can be picked from the [pre-prepared list](./nft-image-table){: target="_blank"}.
 
 
 ### 5.2. Minting your Token
@@ -387,10 +390,10 @@ The below code uses the SDK we setup earlier ([here](#setup-the-fireblocks-sdk))
 (async () => {
   let ownedNfts = await fireblocks.getOwnedNFTs({
     blockchainDescriptor: "ETH_TEST3",
-    vaultAccountIds: ["<account_id>"],
+    vaultAccountIds: ["<VAULT-ACCOUNT-D>"],
   });
-  console.log(ownedNfts);
+  console.log(JSON.stringify(ownedNfts, null, 2));
 })().catch((e) => {
-  console.error(`Failed: ${e}`);
+  console.error(`Failed: ${JSON.stringify(e, null, 2)}`);
 });
 ```
