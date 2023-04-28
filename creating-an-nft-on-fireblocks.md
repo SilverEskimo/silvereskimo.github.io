@@ -98,7 +98,7 @@ You will also need to provide an asset Id, in the context of this workshop it wi
 ```javascript
 (async () => {
   const vaultAsset = await fireblocks.createVaultAsset("<VAULT-ACCOUNT-ID>", "ETH_TEST3");
-  console.log("Vault Goerli ETH Address: ", vaultAsset.addres);
+  console.log("Vault Goerli ETH Address: ", vaultAsset.address);
 })();
 ```
 
