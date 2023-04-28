@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# ETHDenver<br>Gasless NFT Marketplace
+# Bangkok Blockathon<br>Gasless NFT Marketplace
 {: style="text-align: center; font-size:300%"}
 
 --- 
@@ -31,7 +31,7 @@ We will build new parts to our infrastructure with our next steps being:
 
 Lets expand the workspace, revisit the previous work done when we [created our Fireblocks workspace](./creating-an-nft-on-fireblocks#creating-your-fireblocks-environment){: target="_blank"}. Create several vaults, as many as you'd like. These vaults will act as holders of some tokens from our NFT collection.
 
-You can use the following code under `ethdenver/workshop.js`:
+You can use the following code under `bkk/workshop.js`:
 ```javascript
 (async () => {
     for(let i = 1; i <= 2; i++){
@@ -58,7 +58,7 @@ Firstly, we add the needed dependencies:
 web3-workshop > npm install @opengsn/contracts --save
 ```
 
-Secondly we add the following files under `ethdenver/web3-workshop/contracts/`
+Secondly we add the following files under `bkk/web3-workshop/contracts/`
 
 The following contracts will help us support a meta transaction:
 <div>
@@ -288,7 +288,7 @@ contract Initializable {
   </script>
 </div>
 
-The contract content of each file can be copied and saved under `ethdenver/web3-workshop/contracts/` and the relevant name in the tab.
+The contract content of each file can be copied and saved under `bkk/web3-workshop/contracts/` and the relevant name in the tab.
 
 We will briefly explain the purpose of each file:
 1. `Initializable.sol` - simply indicates when something that has the `initalizable` modifier, has already been initalized
@@ -296,7 +296,7 @@ We will briefly explain the purpose of each file:
 3. `NativeMetaTransaction.sol` - Provide support for Meta Transactions by exposing the `executeMetaTransaction` function and handling both exectuion and verification of such a transaction.
 
 
-Finally, we can now create our NFT collection that will support meta transactions, edit the file `ethdenver/web3-workshop/contracts/robotdoomsday.sol` as follows:
+Finally, we can now create our NFT collection that will support meta transactions, edit the file `bkk/web3-workshop/contracts/robotdoomsday.sol` as follows:
 ```dart
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
@@ -429,7 +429,7 @@ You will get the following message:
 ### 1.4. Airdropping our NFTs
 
 Now we want to create an air-drop at least one NFT to one of the vault accounts we created [before](#expanding-our-workspace){: target="_blank"};
-Overwrite the previous `ethdenver/web3-workshop/scripts/mint.js` file with this new code:
+Overwrite the previous `bkk/web3-workshop/scripts/mint.js` file with this new code:
 ```javascript
 // We require the Hardhat Runtime Environment explicitly here. This is optional
 // but useful for running the script in a standalone fashion through `node <script>`.
@@ -501,10 +501,10 @@ To do this we will setup `ethers` with the `FireblocksWeb3Provider` and execute 
 
 First we need to add a dependency:
 ```shell
-ethdenver > npm install ethers@5.6.9
+bkk > npm install ethers@5.6.9
 ```
 
-Now we will setup our provider, within the file `ethdenver/workshop.js` we will create the provider, simply copy and paste this into the file (do not remove the previous requires, but remove other executed function if any)
+Now we will setup our provider, within the file `bkk/workshop.js` we will create the provider, simply copy and paste this into the file (do not remove the previous requires, but remove other executed function if any)
 ```javascript
 const { FireblocksWeb3Provider, ApiBaseUrl } = require('@fireblocks/fireblocks-web3-provider');
 const fbksProvider = new FireblocksWeb3Provider({
@@ -524,7 +524,7 @@ By the addition of the `gaslessGasTankVaultId` we configured the provider to kno
 
 ### 2.2. Performing a meta transfer
 
-In the `ethdenver` folder, create a new file called `contract-abi.json`, with the following content:
+In the `bkk` folder, create a new file called `contract-abi.json`, with the following content:
 ```javascript
 [
   {

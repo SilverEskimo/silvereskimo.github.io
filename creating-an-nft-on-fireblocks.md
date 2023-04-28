@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# ETHDenver<br>NFT Deployment and Minting
+# Bangkok Blockathon<br>NFT Deployment and Minting
 {: style="text-align: center; font-size:300%"}
 
 --- 
@@ -20,7 +20,7 @@ On a high level this is what we'll:
 
 ## 1. Sign up to Sandbox
 
-Register for [ETHDenver developer Sandbox](https://info.fireblocks.com/ethdenver-sandbox).
+Register for [Bangkok Blockathon developer Sandbox](https://info.fireblocks.com/bangkok-blockathon).
 Once you register the system will automatically create an user for you to be able to access the web console and the API.<br/>For registration you'll **need an authenticator app** as it will be required as part of the sign-up process.
 
 See the full [Fireblocks API Documentation](https://developers.fireblocks.com/reference/api-overview) for available functions.
@@ -29,7 +29,7 @@ Make sure you have your prefered IDE installed, our recomendation is [Visual Stu
 
 For the rest of the workshop, please make sure you have installed [NodeJS version >=12](https://nodejs.org/en/download/)
 
-Please create a folder called `ethdenver` wherever you want on your device, this will be the root folder of the project.
+Please create a folder called `bkk` wherever you want on your device, this will be the root folder of the project.
 
 Once done, install the following:
 `fireblocks-sdk`, `@fireblocks/fireblocks-json-rpc`, `@fireblocks/fireblocks-web3-provider`
@@ -37,8 +37,8 @@ Once done, install the following:
 For your convinience, commands to run:
 
 ```shell
-ethdenver > npm install @fireblocks/fireblocks-web3-provider fireblocks-sdk
-ethdenver > npm install -g @fireblocks/fireblocks-json-rpc
+bkk > npm install @fireblocks/fireblocks-web3-provider fireblocks-sdk
+bkk > npm install -g @fireblocks/fireblocks-json-rpc
 ```
 
 ---
@@ -50,12 +50,12 @@ ethdenver > npm install -g @fireblocks/fireblocks-json-rpc
 After registering, you will be brought to the onboarding page, this will show you how to create a new API user.
 In the event that you are not brought to this page, simply click on the bottom left-hand side tag saying `Developers`
 
-Once you created the user, download the API private key and save it to the `ethdenver` folder.
-Store the API key from the onboarding page to a file in the `ethdenver` folder.
+Once you created the user, download the API private key and save it to the `bkk` folder.
+Store the API key from the onboarding page to a file in the `bkk` folder.
 
 ### 2.2. Setup the Fireblocks SDK
 
-Througout the workshop you will need to use the Fireblocks SDK to perform API calls, the following step shows how to set up the SDK; Paste the following code into a new file `workshop.js` under the `ethdenver` directory
+Througout the workshop you will need to use the Fireblocks SDK to perform API calls, the following step shows how to set up the SDK; Paste the following code into a new file `workshop.js` under the `bkk` directory
 
 ```javascript
 const fs = require('fs');
@@ -141,8 +141,8 @@ The following commands will install hardhat and create a new project;
 
 ```shell
 # Create a new directory for our project
-ethdenver > mkdir web3-workshop
-ethdenver > cd web3-workshop
+bkk > mkdir web3-workshop
+bkk > cd web3-workshop
 
 # Install hardhat
 web3-workshop > npm install --save-dev hardhat
@@ -264,7 +264,7 @@ contract RobotDoomsday is ERC721, ERC721URIStorage, Ownable {
 }
 ```
 
-From the `web3-workshop` directory, create a new file under the contracts folder, at `ethdenver/web3-workshop/contracts` named `robotdoomsday.sol` and paste the content into it.
+From the `web3-workshop` directory, create a new file under the contracts folder, at `bkk/web3-workshop/contracts` named `robotdoomsday.sol` and paste the content into it.
 
 Before you continue, make sure you can compile it:
 
@@ -272,7 +272,7 @@ Before you continue, make sure you can compile it:
 web3-workshop > npx hardhat compile
 ```
 
-Next, we will edit the `deploy.js` script under the `ethdenver/web3-workshop/scripts` folder.
+Next, we will edit the `deploy.js` script under the `bkk/web3-workshop/scripts` folder.
 This file will act as our deployment script and will actually perform the deployment onto the Ethereum blockchain on the Goerli network.
 Copy the following content into the file:
 
@@ -322,7 +322,7 @@ You can review the contract under [Etherscan](https://goerli.etherscan.io/).
 
 Once our contract is out in the "wild", we can perform a mint of our token.
 To do this, we will make use of hardhat once more - since it is already configured to work with the Fireblocks plugin.
-Copy the content of the following script into a new file - under `ethdenver/web3-workshop/scripts` folder - called `mint.js` in order to mint your own RobotDoomsday survivor:
+Copy the content of the following script into a new file - under `bkk/web3-workshop/scripts` folder - called `mint.js` in order to mint your own RobotDoomsday survivor:
 
 ```javascript
 // We require the Hardhat Runtime Environment explicitly here. This is optional
@@ -372,7 +372,7 @@ The second variable can be picked from the [pre-prepared list](./nft-image-table
 
 ### 5.2. Minting your Token
 
-Now that we finished the script, minting is a very simple operation, all that we need to do is to run the following command from the `ethdenver/web3-workshop` directory:
+Now that we finished the script, minting is a very simple operation, all that we need to do is to run the following command from the `bkk/web3-workshop` directory:
 
 ```shell
 web3-workshop > npx hardhat run --network goerli scripts/mint.js
